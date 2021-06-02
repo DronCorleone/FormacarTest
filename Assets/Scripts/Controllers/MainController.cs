@@ -7,6 +7,9 @@ public class MainController : MonoBehaviour
 {
     [SerializeField] private string _brandsURL;
 
+    private string _rimsURL;
+    private int _brandID;
+
     private List<BaseController> _controllers = new List<BaseController>();
     private UIController _uiController;
 
@@ -19,6 +22,8 @@ public class MainController : MonoBehaviour
         _uiController = new UIController(this);
 
         StartCoroutine(GetBrandsJSON());
+
+        GeneralEvents.Current.OnLoadRims += LoadRims;
     }
 
     private void Start()
@@ -94,6 +99,31 @@ public class MainController : MonoBehaviour
         GeneralEvents.Current.BrandsLoaded(_brands);
     }
 
-    
+    private IEnumerator GetRimsJSON(string url)
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogWarning("Oops! Something wrong with loading brands");
+            }
+            else
+            {
+                ProcessRimsJSON(www.downloadHandler.text);
+            }
+        }
+    }
+    private void ProcessRimsJSON(string text)
+    {
+        _rims = JsonUtility.FromJson<Rims>(text);
+        GeneralEvents.Current.RimsLoaded(_rims);
+    }
+    private void LoadRims(int id)
+    {
+        _rimsURL = $"https://test.formacar.ru/json/data/31/UWheels/UWheelList_{id}_17.json";
+        StartCoroutine(GetRimsJSON(_rimsURL));
+    }
     #endregion
 }

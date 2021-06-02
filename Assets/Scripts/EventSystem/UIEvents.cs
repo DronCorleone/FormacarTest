@@ -11,16 +11,21 @@ public class UIEvents : MonoBehaviour
     }
 
 
-    public Action<int> OnButtonOpenBrand;
-    public void ButtonOpenBrand(int id)
+    public Action<int> OnButtonRimsMenu;
+    public void ButtonRimsMenu(int id)
     {
-        OnButtonOpenBrand?.Invoke(id);
-        Debug.Log(id);
+        OnButtonRimsMenu?.Invoke(id);
     }
 
     public Action OnButtonBrandMenu;
     public void ButtonBrandMenu()
     {
         OnButtonBrandMenu?.Invoke();
+    }
+
+    public Action<string> OnButtonDownloadFile;
+    public void ButtonDownloadFile(string url)
+    {
+        OnButtonDownloadFile?.Invoke(url);
     }
 }

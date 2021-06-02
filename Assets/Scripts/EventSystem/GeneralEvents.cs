@@ -12,9 +12,27 @@ public class GeneralEvents : MonoBehaviour
     }
 
 
+    public Action OnLoadBrands;
+    public void LoadBrands()
+    {
+        OnLoadBrands?.Invoke();
+    }
+
+    public Action<int> OnLoadRims;
+    public void LoadRims(int brandID)
+    {
+        OnLoadRims?.Invoke(brandID);
+    }
+
     public Action<Brands> OnBrandsLoaded;
     public void BrandsLoaded(Brands brands)
     {
         OnBrandsLoaded?.Invoke(brands);
+    }
+
+    public Action<Rims> OnRimsLoaded;
+    public void RimsLoaded(Rims rims)
+    {
+        OnRimsLoaded?.Invoke(rims);
     }
 }

@@ -41,6 +41,12 @@ public class BrandsMenuView : BaseMenuView
 
     private void SetUpMenu(Brands brands)
     {
+        BrandItemView[] oldBrands = GetComponentsInChildren<BrandItemView>(true);
+        for (int i = 0; i < oldBrands.Length; i++)
+        {
+            Destroy(oldBrands[i].gameObject);
+        }
+
         foreach (BrandItem brand in brands.items)
         {
             BrandItemView view = Instantiate(Resources.Load<BrandItemView>(_path));

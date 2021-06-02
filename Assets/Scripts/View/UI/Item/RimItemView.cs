@@ -1,24 +1,27 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class BrandItemView : MonoBehaviour
+public class RimItemView : MonoBehaviour
 {
     [Header("Elements")]
     [SerializeField] private Image _image;
     [SerializeField] private Text _title;
-    [SerializeField] private Button _buttonOpenBrand;
+    [SerializeField] private Button _buttonDownload;
 
-    private float _imageReduce = 5f;
+    private RimItem _rim;
 
 
-    public void SetUp(BrandItem item)
+    public void SetUp(RimItem rim)
     {
-        StartCoroutine(GetImage(item.image));
-        _title.text = item.title;
-        _buttonOpenBrand.onClick.RemoveAllListeners();
-        _buttonOpenBrand.onClick.AddListener(() => UIEvents.Current.ButtonRimsMenu(item.id));
+        _rim = rim;
+        StartCoroutine(GetImage(rim.image.src));
+        _title.text = rim.model;
+        _buttonDownload.onClick.RemoveAllListeners();
+        _buttonDownload.onClick.AddListener(() => UIEvents.Current.ButtonDownloadFile(rim.bundle));
     }
 
     private IEnumerator GetImage(string url)
@@ -41,6 +44,6 @@ public class BrandItemView : MonoBehaviour
     private void SetUpImage(Texture2D texture)
     {
         _image.sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), Vector2.zero);
-        _image.rectTransform.sizeDelta = new Vector2(texture.width / _imageReduce, texture.height / _imageReduce);
+        _image.rectTransform.sizeDelta = new Vector2(_rim.image.width, _rim.image.height);
     }
 }

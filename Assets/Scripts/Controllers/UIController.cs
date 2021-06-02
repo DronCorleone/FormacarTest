@@ -19,6 +19,9 @@ public class UIController : BaseController
         GameObject.Instantiate(Resources.Load<GameObject>("UIPrefab/UI"));
 
         SwitchUI(UIState.Brands);
+
+        UIEvents.Current.OnButtonRimsMenu += OpenRims;
+        UIEvents.Current.OnButtonBrandMenu += OpenBrands;
     }
 
     public void AddView(BrandsMenuView view)
@@ -43,5 +46,16 @@ public class UIController : BaseController
                 _rimsMenu.Show();
                 break;
         }
+    }
+
+    private void OpenRims(int brandID)
+    {
+        GeneralEvents.Current.LoadRims(brandID);
+        SwitchUI(UIState.Rims);
+    }
+    
+    private void OpenBrands()
+    {
+        SwitchUI(UIState.Brands);
     }
 }
