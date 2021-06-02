@@ -6,6 +6,7 @@ public class UIController : BaseController
 {
     private BrandsMenuView _brandsMenu;
     private RimsMenuView _rimsMenu;
+    private DownloaderMenuView _dlMenu;
 
     public UIController(MainController main) : base (main)
     {
@@ -22,6 +23,8 @@ public class UIController : BaseController
 
         UIEvents.Current.OnButtonRimsMenu += OpenRims;
         UIEvents.Current.OnButtonBrandMenu += OpenBrands;
+        UIEvents.Current.OnButtonDownloadFile += DownloadFile;
+        UIEvents.Current.OnDowloadComplete += DownloadComplete;
     }
 
     public void AddView(BrandsMenuView view)
@@ -31,6 +34,10 @@ public class UIController : BaseController
     public void AddView(RimsMenuView view)
     {
         _rimsMenu = view;
+    }
+    public void AddView(DownloaderMenuView view)
+    {
+        _dlMenu = view;
     }
 
     private void SwitchUI(UIState state)
@@ -57,5 +64,16 @@ public class UIController : BaseController
     private void OpenBrands()
     {
         SwitchUI(UIState.Brands);
+    }
+
+    private void DownloadFile(string url)
+    {
+        GeneralEvents.Current.DownloadFile(url);
+        _dlMenu.Show();
+    }
+    
+    private void DownloadComplete()
+    {
+        _dlMenu.Hide();
     }
 }

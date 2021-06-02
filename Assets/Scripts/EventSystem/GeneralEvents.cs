@@ -35,4 +35,10 @@ public class GeneralEvents : MonoBehaviour
     {
         OnRimsLoaded?.Invoke(rims);
     }
+
+    public Action<string> OnDownloadFile;
+    public void DownloadFile(string url)
+    {
+        OnDownloadFile?.Invoke(url);
+    }
 }

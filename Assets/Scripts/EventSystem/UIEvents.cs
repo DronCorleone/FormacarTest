@@ -28,4 +28,10 @@ public class UIEvents : MonoBehaviour
     {
         OnButtonDownloadFile?.Invoke(url);
     }
+
+    public Action OnDowloadComplete;
+    public void DownloadComplete()
+    {
+        OnDowloadComplete?.Invoke();
+    }
 }
