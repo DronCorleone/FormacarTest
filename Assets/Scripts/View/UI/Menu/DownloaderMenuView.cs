@@ -51,12 +51,15 @@ public class DownloaderMenuView : BaseMenuView
     {
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {
-            yield return www.SendWebRequest();
-            _slider.value = www.downloadProgress;
-            if (_slider.value == 1)
+            AsyncOperation request = www.SendWebRequest();
+
+            while (!www.isDone)
             {
-                UIEvents.Current.DownloadComplete();
+                _slider.value = request.progress;
+                yield return null;
             }
+
+            UIEvents.Current.DownloadComplete();
 
             if (www.result != UnityWebRequest.Result.Success)
             {

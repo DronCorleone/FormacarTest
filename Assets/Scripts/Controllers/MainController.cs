@@ -28,22 +28,22 @@ public class MainController : MonoBehaviour
 
     private void Start()
     {
-        foreach (BaseController controller in _controllers)
+        for (int i = 0; i < _controllers.Count; i++)
         {
-            if (controller is IInitialize)
+            if (_controllers[i] is IInitialize)
             {
-                controller.Initialize();
+                _controllers[i].Initialize();
             }
         }
     }
 
-    public void Update()
+    private void Update()
     {
-        foreach (BaseController controller in _controllers)
+        for (int i = 0; i < _controllers.Count; i++)
         {
-            if (controller is IExecute)
+            if (_controllers[i] is IExecute)
             {
-                controller.Execute();
+                _controllers[i].Execute();
             }
         }
     }
